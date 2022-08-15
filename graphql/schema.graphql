@@ -1,0 +1,54 @@
+scalar DateTime
+
+type User {
+  id: Int!
+  key: String!
+  name: String!
+  accessToken: String
+  created: DateTime!
+  updated: DateTime!
+  followBy: [User!]
+  following: [User!]
+  recieve: [Chat!]
+  send: [Chat!]
+}
+
+type Chat {
+  id: Int!
+  key: String!
+  data: String!
+  created: DateTime!
+  sender: User
+  reciever: User
+}
+
+input UserInfo {
+  name: String!
+}
+
+input ChatInfo {
+  recieverKey: String!
+  data: String!
+}
+
+type Query {
+  user(userKey: String!): User
+  userAll: [User]
+}
+
+type Mutation {
+  userSignUp(info: UserInfo!): User
+  userDelete(userKey: String!): Int
+  userFollow(userKey: String!): Int
+  userUnFollow(userKey: String!): Int
+
+  chatSend(info: ChatInfo!): Chat
+  chatDelete(chatKey: String!): Int
+}
+
+type Subscription {
+  chatSend: Chat
+  chatDelete: Int
+  userFollow: Int
+  userUnFollow: Int
+}

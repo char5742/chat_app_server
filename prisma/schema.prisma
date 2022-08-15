@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  accessToken String
+  name        String
+  created     DateTime @default(now())
+  updated     DateTime @default(now()) @updatedAt
+  // relations
+  followBy    User[]   @relation("UserFollows")
+  following   User[]   @relation("UserFollows")
+  send        Chat[]   @relation("ChatSender")
+  recieve     Chat[]   @relation("ChatReciever")
+}
+
+model Chat {
+  id          Int      @id @default(autoincrement())
+  key         String   @unique
+  data        String
+  created     DateTime @default(now())
+  // relations
+  reciever    User     @relation("ChatReciever", fields: [recieverKey], references: [key])
+  recieverKey String
+  sender      User     @relation("ChatSender", fields: [senderKey], references: [key])
+  senderKey   String
+}

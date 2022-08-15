@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "[prisma]": {
+    "editor.defaultFormatter": null
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "files.autoSave": "onFocusChange"
+}
