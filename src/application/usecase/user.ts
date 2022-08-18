@@ -12,7 +12,7 @@ export class UserUsecase {
           accessToken: "",
         },
       });
-      const token = createToken(user.id);
+      const token = createToken(user.key);
       const updatedUser = await prisma.user.update({
         data: {
           accessToken: token,

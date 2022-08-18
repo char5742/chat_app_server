@@ -14,6 +14,6 @@ export function decodeAuthHeader(authHeader: string): AuthTokenPayload {
   return jwt.verify(token, APP_SECRET) as AuthTokenPayload;
 }
 
-export function createToken(userId: number): string {
-  return jwt.sign({ userId: userId }, APP_SECRET);
+export function createToken(userKey: string): string {
+  return jwt.sign({ userKey: userKey }, APP_SECRET);
 }

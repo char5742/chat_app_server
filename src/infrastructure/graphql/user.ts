@@ -31,13 +31,6 @@ export const User: UserResolvers = {
   },
   recieve: async (parent, _args, context: Context) => {
     if (context.userKey == parent.key || context.role == Role.admin) {
-      console.log(
-        await context.prisma.user.findUnique({
-          where: {
-            id: parent.id,
-          },
-        })
-      );
       return context.prisma.user
         .findUnique({
           where: {
@@ -50,13 +43,6 @@ export const User: UserResolvers = {
   },
   send: async (parent, _args, context: Context) => {
     if (context.userKey == parent.key || context.role == Role.admin) {
-      console.log(
-        await context.prisma.user.findUnique({
-          where: {
-            id: parent.id,
-          },
-        })
-      );
       return context.prisma.user
         .findUnique({
           where: {
