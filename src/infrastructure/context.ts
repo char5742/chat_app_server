@@ -27,7 +27,7 @@ export const context = ({ req }: { req: Request }): Context => {
   return {
     prisma,
     userKey: token?.userKey,
-    role: Role.user,
+    role: token != null ? Role.user : Role.guest,
   };
 };
 

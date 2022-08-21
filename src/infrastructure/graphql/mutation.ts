@@ -16,7 +16,6 @@ export const Mutation: MutationResolvers = {
       info: args.info,
     });
     context.userKey = user.key;
-    context.role = Role.user;
     return user;
   },
   userDelete: async (
@@ -26,13 +25,60 @@ export const Mutation: MutationResolvers = {
     },
     context: Context
   ) => {
-    if (context.role == Role.guest) {
+    if (!context.userKey) {
       throw Error("not authorized");
     }
     return await UserUsecase.delete({
       db: context.prisma,
-      userKey: args.userKey,
+      userKey: context.userKey,
     });
+  },
+  userFollow: async (
+    _parent,
+    args: {
+      userKey: string;
+    },
+    context: Context
+  ) => {
+    if (!context.userKey) {
+      throw Error("not authorized");
+    }
+    const user = await UserUsecase.follow({
+      db: context.prisma,
+      userKey: context.userKey,
+      targetKey: args.userKey,
+    });
+    await pubsub.publish(`${Topic.USER_FOLLOW_TOPIC}.${args.userKey}`, {
+      userFollow: await UserUsecase.getUser({
+        db: context.prisma,
+        userKey: context.userKey,
+      }),
+    });
+    return user;
+  },
+
+  userUnFollow: async (
+    _parent,
+    args: {
+      userKey: string;
+    },
+    context: Context
+  ) => {
+    if (!context.userKey) {
+      throw Error("not authorized");
+    }
+    const user = await UserUsecase.unfollow({
+      db: context.prisma,
+      userKey: context.userKey,
+      targetKey: args.userKey,
+    });
+    await pubsub.publish(`${Topic.USER_UNFOLLOW_TOPIC}.${args.userKey}`, {
+      userUnfollow: await UserUsecase.getUser({
+        db: context.prisma,
+        userKey: context.userKey,
+      }),
+    });
+    return user;
   },
 
   chatSend: async (
@@ -42,7 +88,7 @@ export const Mutation: MutationResolvers = {
     },
     context: Context
   ) => {
-    if (context.role == Role.guest) {
+    if (!context.userKey) {
       throw Error("not authorized");
     }
     const chat = await ChatUsecase.send({
@@ -62,7 +108,7 @@ export const Mutation: MutationResolvers = {
     },
     context: Context
   ) => {
-    if (context.role == Role.guest) {
+    if (!context.userKey) {
       throw Error("not authorized");
     }
     const chat = await ChatUsecase.delete({

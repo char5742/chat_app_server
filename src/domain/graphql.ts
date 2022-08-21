@@ -35,9 +35,9 @@ export type Mutation = {
   chatDelete?: Maybe<Scalars['Int']>;
   chatSend?: Maybe<Chat>;
   userDelete?: Maybe<Scalars['Int']>;
-  userFollow?: Maybe<Scalars['Int']>;
+  userFollow?: Maybe<User>;
   userSignUp?: Maybe<User>;
-  userUnFollow?: Maybe<Scalars['Int']>;
+  userUnFollow?: Maybe<User>;
 };
 
 
@@ -85,8 +85,8 @@ export type Subscription = {
   __typename?: 'Subscription';
   chatDelete?: Maybe<Scalars['Int']>;
   chatSend?: Maybe<Chat>;
-  userFollow?: Maybe<Scalars['Int']>;
-  userUnFollow?: Maybe<Scalars['Int']>;
+  userFollow?: Maybe<User>;
+  userUnFollow?: Maybe<User>;
 };
 
 export type User = {
@@ -223,9 +223,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   chatDelete?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationChatDeleteArgs, 'chatKey'>>;
   chatSend?: Resolver<Maybe<ResolversTypes['Chat']>, ParentType, ContextType, RequireFields<MutationChatSendArgs, 'info'>>;
   userDelete?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUserDeleteArgs, 'userKey'>>;
-  userFollow?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUserFollowArgs, 'userKey'>>;
+  userFollow?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserFollowArgs, 'userKey'>>;
   userSignUp?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserSignUpArgs, 'info'>>;
-  userUnFollow?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<MutationUserUnFollowArgs, 'userKey'>>;
+  userUnFollow?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUserUnFollowArgs, 'userKey'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
@@ -236,8 +236,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = ResolversObject<{
   chatDelete?: SubscriptionResolver<Maybe<ResolversTypes['Int']>, "chatDelete", ParentType, ContextType>;
   chatSend?: SubscriptionResolver<Maybe<ResolversTypes['Chat']>, "chatSend", ParentType, ContextType>;
-  userFollow?: SubscriptionResolver<Maybe<ResolversTypes['Int']>, "userFollow", ParentType, ContextType>;
-  userUnFollow?: SubscriptionResolver<Maybe<ResolversTypes['Int']>, "userUnFollow", ParentType, ContextType>;
+  userFollow?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "userFollow", ParentType, ContextType>;
+  userUnFollow?: SubscriptionResolver<Maybe<ResolversTypes['User']>, "userUnFollow", ParentType, ContextType>;
 }>;
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{

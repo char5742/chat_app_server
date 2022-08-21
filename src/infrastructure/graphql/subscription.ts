@@ -12,7 +12,7 @@ import { pubsub, Topic } from "@/src/infrastructure/pubsub";
 export const Subscription: SubscriptionResolvers = {
   chatSend: {
     subscribe: (_, __, context: Context) => {
-      if (context.role == Role.guest) {
+      if (!context.userKey) {
         throw Error("not authorized");
       }
       return {
@@ -25,7 +25,7 @@ export const Subscription: SubscriptionResolvers = {
   },
   chatDelete: {
     subscribe: (_, __, context: Context) => {
-      if (context.role == Role.guest) {
+      if (!context.userKey) {
         throw Error("not authorized");
       }
       return {
@@ -38,12 +38,12 @@ export const Subscription: SubscriptionResolvers = {
   },
   userFollow: {
     subscribe: (_, __, context: Context) => {
-      if (context.role == Role.guest) {
+      if (!context.userKey) {
         throw Error("not authorized");
       }
       return {
         [Symbol.asyncIterator]: () =>
-          pubsub.asyncIterator<{ userFollow: number }>(
+          pubsub.asyncIterator<{ userFollow: User }>(
             `${Topic.USER_FOLLOW_TOPIC}.${context.userKey}`
           ),
       };
@@ -51,12 +51,12 @@ export const Subscription: SubscriptionResolvers = {
   },
   userUnFollow: {
     subscribe: (_, __, context: Context) => {
-      if (context.role == Role.guest) {
+      if (!context.userKey) {
         throw Error("not authorized");
       }
       return {
         [Symbol.asyncIterator]: () =>
-          pubsub.asyncIterator<{ userUnFollow: number }>(
+          pubsub.asyncIterator<{ userUnFollow: User }>(
             `${Topic.USER_UNFOLLOW_TOPIC}.${context.userKey}`
           ),
       };

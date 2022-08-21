@@ -1,6 +1,6 @@
 import { ChatInfo } from "@/src/domain/graphql";
 import { PrismaClient } from "@prisma/client";
-import { uuid } from "uuidv4";
+import { v4 } from "uuid";
 export class ChatUsecase {
   static async send({
     db,
@@ -14,7 +14,7 @@ export class ChatUsecase {
     const chat = await db.chat.create({
       data: {
         ...info,
-        key: uuid(),
+        key: v4(),
         senderKey,
       },
     });

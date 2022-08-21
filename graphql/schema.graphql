@@ -39,8 +39,8 @@ type Query {
 type Mutation {
   userSignUp(info: UserInfo!): User
   userDelete(userKey: String!): Int
-  userFollow(userKey: String!): Int
-  userUnFollow(userKey: String!): Int
+  userFollow(userKey: String!): User
+  userUnFollow(userKey: String!): User
 
   chatSend(info: ChatInfo!): Chat
   chatDelete(chatKey: String!): Int
@@ -49,6 +49,6 @@ type Mutation {
 type Subscription {
   chatSend: Chat
   chatDelete: Int
-  userFollow: Int
-  userUnFollow: Int
+  userFollow: User
+  userUnFollow: User
 }
