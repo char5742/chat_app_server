@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import {
   ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
 } from "apollo-server-core";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { WebSocketServer } from "ws";
@@ -24,7 +24,7 @@ const serverCleanup = useServer({ schema, context: wscontext }, wsServer);
 
 const server = new ApolloServer({
   schema,
-  csrfPrevention: false,
+  csrfPrevention: true,
   cache: "bounded",
   context,
   plugins: [
@@ -38,7 +38,7 @@ const server = new ApolloServer({
         };
       },
     },
-    ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ApolloServerPluginLandingPageProductionDefault(),
   ],
 });
 
