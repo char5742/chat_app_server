@@ -12,16 +12,7 @@ import { readFileSync } from "node:fs";
 import { context, wscontext } from "@/src/infrastructure/context";
 import { resolvers } from "@/src/infrastructure/resolver";
 const app: express.Express = express();
-app.use(
-  express.json({ limit: "100mb" }), // jsonをパースする際のlimit設定
-  express.urlencoded({ limit: "100mb", extended: true }),
-  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    res.header("Access-Controll-Allow-Origin", "*");
-    res.header("Access-Controll-Allow-Methods", "*");
-    res.header("Access-Controll-Allow-Headers", "*");
-    next();
-  }
-);
+
 const httpServer = createServer(app);
 const wsServer = new WebSocketServer({
   server: httpServer,
@@ -33,7 +24,7 @@ const serverCleanup = useServer({ schema, context: wscontext }, wsServer);
 
 const server = new ApolloServer({
   schema,
-  csrfPrevention: true,
+  csrfPrevention: false,
   cache: "bounded",
   context,
   plugins: [
